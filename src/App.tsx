@@ -871,8 +871,8 @@ export default function ShirtButtonCannon() {
             <br/>
             <div className="opacity-80 max-w-3xl mx-auto"><strong>Play in English, Dutch, or upload a custom word list.</strong></div>
             <div className="flex gap-3">
-              {!running && <button onClick={startGameDutch} className="px-5 py-2 rounded-xl bg-amber-300 text-slate-900 font-semibold hover:brightness-95">play in Dutch</button>}
-              {!running && <button onClick={startGameEnglish} className="px-5 py-2 rounded-xl bg-amber-300 text-slate-900 font-semibold hover:brightness-95">play in English</button>}
+              {!running && <button onClick={startGameDutch} className="px-5 py-2 rounded-xl bg-amber-300 text-slate-900 font-semibold hover:brightness-95">Play in Dutch</button>}
+              {!running && <button onClick={startGameEnglish} className="px-5 py-2 rounded-xl bg-amber-300 text-slate-900 font-semibold hover:brightness-95">Play in English</button>}
             </div>
           <br/>
 
