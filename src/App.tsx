@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import dutchWords from './assets/nederlands-5.txt?url';
+import englishWords from './assets/english-5.txt?url';
+
 
 // Shirt Button Cannon — single-file React Canvas game.
 // Optional CSV/TXT upload of allowed 5-letter words (first column). If none uploaded, any 5 letters count.
@@ -742,8 +745,42 @@ export default function ShirtButtonCannon() {
     }
   }
 
+  async function handleFileFromPath(path: string) {
+  try {
+    const response = await fetch(path);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const textRaw = await response.text();
+    const words = parseWordListText(textRaw);
+    setWordSet(words);
+    setUploadName(`${path} (${words.size} words)`);
+  } catch (e) {
+    console.error(e);
+    alert(`Failed to load ${path}. Using open dictionary mode instead.`);
+    setWordSet(null);
+    setUploadName("");
+  }
+}
+
   // ---------- Start / Reset ----------
   function startGame() {
+    setScore(0);
+    setRack([]);
+    setGameOver(false);
+    setRunning(true);
+    setCooldownMax(COOLDOWN_TIME);
+    resetGameGeometry();
+  }
+  function startGameDutch() {
+   handleFileFromPath(dutchWords);
+    setScore(0);
+    setRack([]);
+    setGameOver(false);
+    setRunning(true);
+    setCooldownMax(COOLDOWN_TIME);
+    resetGameGeometry();
+  }
+  function startGameEnglish() {
+   handleFileFromPath(englishWords);
     setScore(0);
     setRack([]);
     setGameOver(false);
@@ -832,7 +869,13 @@ export default function ShirtButtonCannon() {
                 </ul>
             </div>
             <br/>
-            <div className="opacity-80 max-w-3xl mx-auto"><strong>Upload a word list to play in English or Dutch</strong></div>
+            <div className="opacity-80 max-w-3xl mx-auto"><strong>Play in English, Dutch, or upload a custom word list.</strong></div>
+            <div className="flex gap-3">
+              {!running && <button onClick={startGameDutch} className="px-5 py-2 rounded-xl bg-amber-300 text-slate-900 font-semibold hover:brightness-95">play in Dutch</button>}
+              {!running && <button onClick={startGameEnglish} className="px-5 py-2 rounded-xl bg-amber-300 text-slate-900 font-semibold hover:brightness-95">play in English</button>}
+            </div>
+          <br/>
+
 
             {gameOver && <div className="text-rose-300 font-semibold">Game Over — Final Score: {score}</div>}
 
